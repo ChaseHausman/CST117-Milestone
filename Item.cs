@@ -168,5 +168,13 @@ namespace Milestone_Project
 
             return this.GetPrice();
         }
+
+        public string ListLine
+        {
+            get
+            {
+                return this.Description;
+            }
+        }
     }
 }

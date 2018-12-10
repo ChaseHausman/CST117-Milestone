@@ -8,60 +8,36 @@ namespace Milestone_Project
 {
     class InventoryManager
     {
-        private Item[] Items;
+        private List<Item> Items;
 
         public InventoryManager()
         {
-            this.Items = new Item[0];
+            this.Items = new List<Item>();
         }
 
         public void Add(Item newItem)
         {
-            Item[] temp = new Item[this.Items.Length + 1];
-
-            int id = 0;
-            foreach(Item item in this.Items)
-            {
-                temp[id] = this.Items[id];
-                id++;
-            }
-
-            temp[id] = newItem;
-
-            this.Items = temp;
+            this.Items.Add(newItem);
         }
 
         public void Remove(Item RemovedItem)
         {
-            Item[] temp = new Item[this.Items.Length - 1];
-            int id = 0;
-            foreach(Item item in this.Items)
-            {
-                if(item.GetId() != RemovedItem.GetId())
-                {
-                    temp[id] = item;
-                }
-
-                id++;
-            }
-
-            this.Items = temp;
+            this.Items.Remove(RemovedItem);
         }
 
         public int Restock(Item Item, int Quantity)
         {
-            for(int i = 0; i < this.Items.Length; i++)
+            int index = this.Items.IndexOf(Item);
+
+            if(index < 0)
             {
-                if(this.Items[i].GetId() == Item.GetId())
-                {
-                    return this.Items[i].RecieveInventory(Quantity);
-                }
+                return 0;
             }
 
-            return 0;
+            return this.Items[index].RecieveInventory(Quantity);
         }
 
-        public Item[] Display()
+        public List<Item> Display()
         {
             foreach(Item i in this.Items)
             {
@@ -71,7 +47,7 @@ namespace Milestone_Project
             return this.Items;
         }
 
-        public Item[] Search(String name)
+        public List<Item> Search(String name)
         {
             List<Item> temp = new List<Item>();
 
@@ -83,7 +59,7 @@ namespace Milestone_Project
                 }
             }
 
-            return temp.ToArray();
+            return temp;
         }
 
         public Item[] Search(Double price)
@@ -99,6 +75,11 @@ namespace Milestone_Project
             }
 
             return temp.ToArray();
+        }
+
+        public List<Item> GetItemsList()
+        {
+            return this.Items;
         }
     }
 }
